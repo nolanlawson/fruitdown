@@ -181,12 +181,6 @@ ld.prototype._batch = function (array, options, callback) {
 ld.prototype._iterator = function (options) {
   return new ldIterator(this, options)
 }
-/*
-
-(function() {
- console.log("Hello")
-})
-*/
 
 
 
@@ -217,7 +211,9 @@ var result;
     result.buffer = result
     result.byteLength = result.length
     result.set = set_
-
+   
+  
+  
   if (typeof arg1 === "object" && arg1.buffer)
     result.buffer = arg1.buffer
    
@@ -225,12 +221,14 @@ var result;
 
 }
 
-//if(!window.Uint8Array){ 
+/*
+if(!window.Uint8Array){ 
   window.Uint8Array = TypedArray;
+  window.Uint16Array = TypedArray;
   window.Uint32Array = TypedArray;
   window.Int32Array = TypedArray;
-//}
-
+}
+*/
 function isBuffer(buf) {
   return buf instanceof ArrayBuffer
 }
@@ -268,7 +266,7 @@ function checkKeyValue (obj, type) {
   } */
   if (isBuffer(obj)) {
     
-    console.log("Buffer " +obj)
+    
     if (obj.length === 0)
       return new Error(type + ' cannot be an empty Buffer')
   } else if (String(obj) === '')

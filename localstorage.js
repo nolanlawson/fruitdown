@@ -13,7 +13,8 @@ function localStorage(dbname){
 localStorage.prototype.key = function (keyindex){
 		var retVal = this._keys[keyindex];
 		if(typeof retVal !== 'undefined'){
-			return this._keys[keyindex].replace(this._partition + '!', "");
+            // this needs to be a last and first;
+			return this._keys[keyindex].replace(this._partition + '!', "").replace("!bin");
 		}else{
 			return retVal;
 		} 
@@ -23,6 +24,9 @@ localStorage.prototype.key = function (keyindex){
 localStorage.prototype.setItem = function (key, value){    	
     	key = this._partition + "!" + key;
     	
+        if(value instanceof ArrayBuffer || value instanceof Uint8Array) {
+            value = String.fromCharCode.apply(null, value)
+        }
     	
     	
     	for (var i = 0; i < this._keys.length; i++) {
@@ -43,7 +47,19 @@ localStorage.prototype.getItem = function (key){
 	    key = this._partition + "!" + key
 		var retval = window.localStorage.getItem(key) 
     	if(retval == null){
-    		retval = undefined;
+            key += "!bin";
+            retval = window.localStorage.getItem(key);
+            if(retval == null){
+                retval = undefined;
+                }/*else {
+                    charList = retval.split(''),
+                    uintArray = [];
+                    for (var i = 0; i < charList.length; i++) {
+                        uintArray.push(charList[i].charCodeAt(0));
+                    }
+                return new Uint8Array(uintArray);
+            }*/
+            
     	}
     	return retval;
 }
