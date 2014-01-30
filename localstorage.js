@@ -67,10 +67,11 @@ localStorage.prototype.getItem = function (key){
     if(retval.indexOf('Uint8Array:') == 0) {
       var value = retval.replace("Uint8Array:", "");
 	  //This should be in but there seems to be a bug in TAPE?
+	  /*
 	  retval = new Uint8Array(atob(value).split('').map(function(c) {
 	      return c.charCodeAt(0);
 	  }));
-	  
+	  */
 	  return atob(value);
     }	
     return retval;
