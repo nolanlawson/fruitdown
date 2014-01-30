@@ -5,9 +5,12 @@ var tape   = require('tape')
       return new leveldown(location)  
     }
   , testCommon = require('./testCommon')
-  , testBuffer = new Uint8Array(1)
+  , testBuffer = new Uint8Array('hello'.split('').map(function(c) {
+	      return c.charCodeAt(0);
+	  }));
+  
 
-testBuffer[0] = '☃'
+//testBuffer[0] = '☃'
 
 require('abstract-leveldown/abstract/leveldown-test').args(factory, tape)
 require('abstract-leveldown/abstract/open-test').args(factory, tape, testCommon)

@@ -24,10 +24,16 @@ localStorage.prototype.key = function (keyindex){
 localStorage.prototype.setItem = function (key, value){    	
     	key = this._partition + "!" + key;
     	
-        if(value instanceof ArrayBuffer || value instanceof Uint8Array) {
-            value = String.fromCharCode.apply(null, value)
+        if(value instanceof ArrayBuffer) {
+			var bencode = "ArrayBuffer:";
+			value = bencode + btoa(String.fromCharCode.apply(null, value))
         }
-    	
+		
+		if(value instanceof Uint8Array){
+		    var bencode = "Uint8Array:";
+			value = bencode + btoa(String.fromCharCode.apply(null, value))
+			
+    	}
     	
     	for (var i = 0; i < this._keys.length; i++) {
 	        if (this._keys[i] === key) {
@@ -46,22 +52,30 @@ localStorage.prototype.setItem = function (key, value){
 localStorage.prototype.getItem = function (key){
    key = this._partition + "!" + key
    var retval = window.localStorage.getItem(key) 
-      if(retval == null){
-         key += "!bin";
-         retval = window.localStorage.getItem(key);
-            if(retval == null){
-               retval = undefined;
-            }/*else {
-                    charList = retval.split(''),
-                    uintArray = [];
-                    for (var i = 0; i < charList.length; i++) {
-                        uintArray.push(charList[i].charCodeAt(0));
-                    }
-                return new Uint8Array(uintArray);
-            }*/
-            
-    	}
-    	return retval;
+   if(retval == null){
+      return undefined;
+   }
+   
+   if(retval.indexOf('ArrayBuffer:') == 0) {
+      var value = retval.replace("ArrayBuffer:", "");
+	  retval = new ArrayBuffer(atob(value).split('').map(function(c) {
+	      return c.charCodeAt(0);
+	  }));
+	   return retval;
+    }
+	
+    if(retval.indexOf('Uint8Array:') == 0) {
+      var value = retval.replace("Uint8Array:", "");
+	  
+	  retval = new Uint8Array(atob(value).split('').map(function(c) {
+	      return c.charCodeAt(0);
+	  }));
+	  console.log(retval instanceof Uint8Array);
+	  console.log("retval is Uint8Array : ");
+	  
+	  return atob(value);
+    }	
+    return retval;
 }
 
 //removeItem: Removes the item identified by it's key.
