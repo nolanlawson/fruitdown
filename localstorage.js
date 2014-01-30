@@ -44,14 +44,14 @@ localStorage.prototype.setItem = function (key, value){
 
 //getItem: Returns the item identified by it's key.
 localStorage.prototype.getItem = function (key){
-	    key = this._partition + "!" + key
-		var retval = window.localStorage.getItem(key) 
-    	if(retval == null){
-            key += "!bin";
-            retval = window.localStorage.getItem(key);
+   key = this._partition + "!" + key
+   var retval = window.localStorage.getItem(key) 
+      if(retval == null){
+         key += "!bin";
+         retval = window.localStorage.getItem(key);
             if(retval == null){
-                retval = undefined;
-                }/*else {
+               retval = undefined;
+            }/*else {
                     charList = retval.split(''),
                     uintArray = [];
                     for (var i = 0; i < charList.length; i++) {
