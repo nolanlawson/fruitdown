@@ -2,7 +2,8 @@
     "name"            : "localstorage-down"
   , "description"     : "A Node.js and browserify leveldown API implementation that maps to localstorage in the browser"
   , "contributors"    : [
-        "Anton Whalley <antonwhalley@vodafone.ie> (https://github.com/no9)"
+        "Anton Whalley <antonwhalley@vodafone.ie> (https://github.com/no9)",
+        "Adam Shih (https://github.com/adamshih)"
     ]
   , "keywords": [
         "leveldb",
