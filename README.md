@@ -85,7 +85,8 @@ http://www.youtube.com/watch?v=ExUosomc8Uc
 Browse to http://localhost:9966/ 
 View console logs in the browser to see test output. 
 
-##  contributors
+##  Contributors
 
 Anton Whalley https://github.com/no9
+
 Adam Shih https://github.com/adamshih
