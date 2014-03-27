@@ -75,6 +75,7 @@ ldIterator.prototype._next = function (callback) {
 }
 
 function ld (location) {
+  if (!(this instanceof ld)) return new ld(location)
   AbstractLevelDOWN.call(this, location)
   var wstore = require('./localstorage').localStorage;
   this.container = new wstore(location);
