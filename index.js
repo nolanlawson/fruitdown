@@ -183,6 +183,19 @@ ld.prototype._iterator = function (options) {
   return new ldIterator(this, options)
 }
 
+ld.destroy = function (name, callback) {
+  try {
+    Object.keys(localStorage)
+      .forEach(function (key) {
+        if (key.substring(0, name.length + 1) == (name + "!")) {
+          localStorage.removeItem(key)
+        }
+      })
+    callback()
+  } catch (e) {
+    // fail gracefully if no localStorage
+  }
+}
 
 
 function subarray(start, end) {
