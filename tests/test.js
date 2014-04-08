@@ -25,6 +25,7 @@ require('abstract-leveldown/abstract/chained-batch-test').all(factory, tape, tes
 require('abstract-leveldown/abstract/approximate-size-test').setUp(factory, tape, testCommon)
 require('abstract-leveldown/abstract/approximate-size-test').args(factory, tape, testCommon)
 
+require('./custom-tests.js').all(leveldown, tape, testCommon)
 
 
 function subarray(start, end) {
