@@ -70,7 +70,7 @@ beefy index.js
 
 See the output :
 
-(http://localhost:9966)[http://localhost:9966]
+[http://localhost:9966](http://localhost:9966)
 
 Listen to John Cage :
 
