@@ -1,39 +1,56 @@
 {
-    "name"            : "localstorage-down"
-  , "description"     : "A Node.js and browserify leveldown API implementation that maps to localstorage in the browser"
-  , "contributors"    : [
-        "Anton Whalley <antonwhalley@vodafone.ie> (https://github.com/no9)",
-        "Adam Shih (https://github.com/adamshih)"
-    ]
-  , "keywords": [
-        "leveldb",
-        "localstorage",
-        "leveldown",
-        "levelup"
-    
-    ]
-  , "version"         : "0.4.1"
-  , "main"            : "index.js"
-  , "dependencies"    : {
-      "abstract-leveldown": "0.11.3"
-    } 
-  , "devDependencies" : {
-        
-        "tape": "2.3.2"
-    }
-  , "repository"      : {
-        "type"            : "git"
-      , "url"             : "https://github.com/no9/localstorage-down.git"
-    }
-  ,"browser": {
+  "name": "localstorage-down",
+  "description": "A Node.js and browserify leveldown API implementation that maps to localstorage in the browser",
+  "contributors": [
+    "Anton Whalley <antonwhalley@vodafone.ie> (https://github.com/no9)",
+    "Adam Shih (https://github.com/adamshih)"
+  ],
+  "keywords": [
+    "leveldb",
+    "localstorage",
+    "leveldown",
+    "levelup"
+  ],
+  "version": "0.4.1",
+  "main": "index.js",
+  "dependencies": {
+    "abstract-leveldown": "0.11.3"
+  },
+  "devDependencies": {
+    "tape": "2.3.2",
+    "levelup": "^0.18.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/no9/localstorage-down.git"
+  },
+  "browser": {
     "bindings": false
-    
-  } 
-  ,"testling": { 
-        "files": ["tests/test.js"], 
-        "browsers": ["iexplore/10.0", "chrome/30.0","chrome/31.0","firefox/25.0","firefox/24.0", "opera/15.0","opera/16.0","opera/17.0","safari/5.0.5","safari/5.1","firefox/nightly","opera/next","chrome/canary","iphone/6.0","ipad/6.0","safari/6.0", "android-browser/4.2"]
-      }
-
-  , "license"         : "MIT"
-  , "gypfile"         : false
+  },
+  "testling": {
+    "files": [
+      "tests/test.js"
+    ],
+    "browsers": [
+      "iexplore/10.0",
+      "chrome/30.0",
+      "chrome/31.0",
+      "firefox/25.0",
+      "firefox/24.0",
+      "opera/15.0",
+      "opera/16.0",
+      "opera/17.0",
+      "safari/5.0.5",
+      "safari/5.1",
+      "firefox/nightly",
+      "opera/next",
+      "chrome/canary",
+      "iphone/6.0",
+      "ipad/6.0",
+      "safari/6.0",
+      "android-browser/4.2"
+    ]
+  },
+  "license": "MIT",
+  "gypfile": false
 }
