@@ -56,7 +56,7 @@ util.inherits(ldIterator, AbstractIterator)
 
 ldIterator.prototype._next = function (callback) {
 	
-  if (this._pos >= this.db.container.length || this._pos < 0)
+  if (this._pos >= this.db.container.length() || this._pos < 0)
     return setImmediate(callback)
   var key   = this.db.container.key(this._pos)
     , value
