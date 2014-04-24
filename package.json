@@ -11,12 +11,13 @@
     "leveldown",
     "levelup"
   ],
-  "version": "0.4.2",
+  "version": "0.4.3",
   "main": "index.js",
   "dependencies": {
     "abstract-leveldown": "0.11.3"
   },
   "devDependencies": {
+    "levelup": "^0.18.2",
     "tape": "2.3.2"
   },
   "repository": {
