@@ -3,7 +3,7 @@ function localStorage(dbname){
 	this._keys  = [];
 
 	for (var i = 0; i < window.localStorage.length; i++){
-    	if(window.localStorage.key(i).indexOf(dbname) == 0)
+    	if(window.localStorage.key(i).indexOf(dbname + '!') == 0)
     		this._keys.push(window.localStorage.key(i))
     }
     this._keys.sort();
