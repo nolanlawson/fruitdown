@@ -98,7 +98,7 @@ ld.prototype._put = function (key, value, options, callback) {
 
   if (err) return callback(err)
 
-  if(typeof value == 'object' && value.buffer == undefined){
+  if(typeof value == 'object' && !Buffer.isBuffer(value) && value.buffer == undefined){
         var obj = {};
         obj.storetype = "json";
         obj.data = value; 
