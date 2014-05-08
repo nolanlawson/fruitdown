@@ -29,7 +29,6 @@ At the command prompt in your chosen directory :
 ```
 npm install localstorage-down
 npm install levelup 
-npm install beefy -g
 npm install browserify -g
 ```
 
@@ -78,7 +77,7 @@ http://www.youtube.com/watch?v=ExUosomc8Uc
 ## Tests
 
 ```
-	beefy tests/test
+npm run test
 ```
 
 Browse to http://localhost:9966/ 
