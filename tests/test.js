@@ -1,9 +1,5 @@
 var tape   = require('tape')
-  , leveldown = require('../')
-  , factory = function (location) {
-
-      return new leveldown(location)  
-    }
+  , localstorage = require('../')
   , testCommon = require('./testCommon')
   , testBuffer = new Uint8Array('hello'.split('').map(function(c) {
 	      return c.charCodeAt(0);
@@ -12,20 +8,20 @@ var tape   = require('tape')
 
 //testBuffer[0] = '☃'
 
-require('abstract-leveldown/abstract/leveldown-test').args(factory, tape)
-require('abstract-leveldown/abstract/open-test').args(factory, tape, testCommon)
-require('abstract-leveldown/abstract/del-test').all(factory, tape, testCommon)
-require('abstract-leveldown/abstract/put-test').all(factory, tape, testCommon)
-require('abstract-leveldown/abstract/get-test').all(factory, tape, testCommon)
-require('abstract-leveldown/abstract/put-get-del-test').all(factory, tape, testCommon, testBuffer)
-require('abstract-leveldown/abstract/close-test').close(factory, tape, testCommon)
-require('abstract-leveldown/abstract/iterator-test').all(factory, tape, testCommon)
+require('abstract-leveldown/abstract/leveldown-test').args(localstorage, tape)
+require('abstract-leveldown/abstract/open-test').args(localstorage, tape, testCommon)
+require('abstract-leveldown/abstract/del-test').all(localstorage, tape, testCommon)
+require('abstract-leveldown/abstract/put-test').all(localstorage, tape, testCommon)
+require('abstract-leveldown/abstract/get-test').all(localstorage, tape, testCommon)
+require('abstract-leveldown/abstract/put-get-del-test').all(localstorage, tape, testCommon, testBuffer)
+require('abstract-leveldown/abstract/close-test').close(localstorage, tape, testCommon)
+require('abstract-leveldown/abstract/iterator-test').all(localstorage, tape, testCommon)
 
-require('abstract-leveldown/abstract/chained-batch-test').all(factory, tape, testCommon)
-require('abstract-leveldown/abstract/approximate-size-test').setUp(factory, tape, testCommon)
-require('abstract-leveldown/abstract/approximate-size-test').args(factory, tape, testCommon)
+require('abstract-leveldown/abstract/chained-batch-test').all(localstorage, tape, testCommon)
+require('abstract-leveldown/abstract/approximate-size-test').setUp(localstorage, tape, testCommon)
+require('abstract-leveldown/abstract/approximate-size-test').args(localstorage, tape, testCommon)
 
-require('./custom-tests.js').all(leveldown, tape, testCommon)
+require('./custom-tests.js').all(localstorage, tape, testCommon)
 
 
 function subarray(start, end) {

@@ -36,10 +36,9 @@ npm install browserify -g
 Create a file called index.js and enter the following:
 
 ```
-var leveldown = require('localstorage-down')
+var localstorage = require('localstorage-down')
   , levelup = require('levelup')
-  , factory = function (location) { return new leveldown(location) }
-  , db = levelup('/does/not/matter', { db: factory })
+  , db = levelup('/does/not/matter', { db: localstorage })
 
 db.put('name', 'Yuri Irsenovich Kim')
 db.put('dob', '16 February 1941')
