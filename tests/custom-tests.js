@@ -1,3 +1,5 @@
+'use strict';
+
 var levelup = require('levelup');
   
 module.exports.setUp = function (leveldown, test, testCommon) {

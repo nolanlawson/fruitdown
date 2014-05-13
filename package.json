@@ -3,7 +3,8 @@
   "description": "A Node.js and browserify leveldown API implementation that maps to localstorage in the browser",
   "contributors": [
     "Anton Whalley <antonwhalley@vodafone.ie> (https://github.com/no9)",
-    "Adam Shih (https://github.com/adamshih)"
+    "Adam Shih (https://github.com/adamshih)",
+    "Nolan Lawson (https://github.com/nolanlawson)"
   ],
   "keywords": [
     "leveldb",
@@ -32,7 +33,7 @@
   },
   "scripts": {
     "test": "npm run jshint && beefy tests/test.js",
-    "jshint": "jshint -c .jshintrc *.js"
+    "jshint": "jshint -c .jshintrc *.js tests/*.js"
   },
   "testling": {
     "files": [
