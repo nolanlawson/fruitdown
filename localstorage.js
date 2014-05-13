@@ -33,6 +33,12 @@ LocalStorage.prototype.key = function (keyindex) {
   return retVal;
 };
 
+// returns the key index if found, else the index where
+// the key should be inserted
+LocalStorage.prototype.indexOfKey = function(key) {
+  return utils.sortedIndexOf(this._keys, key);
+};
+
 //setItem: Saves and item at the key provided.
 LocalStorage.prototype.setItem = function (key, value) {
   if (value instanceof ArrayBuffer) {
