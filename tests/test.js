@@ -21,6 +21,12 @@ require('abstract-leveldown/abstract/chained-batch-test').all(localstorage, tape
 require('abstract-leveldown/abstract/approximate-size-test').setUp(localstorage, tape, testCommon);
 require('abstract-leveldown/abstract/approximate-size-test').args(localstorage, tape, testCommon);
 
+//
+// TODO: uncomment these when they're passing
+//
+//require('abstract-leveldown/abstract/ranges-test').all(localstorage, tape, testCommon)
+//require('abstract-leveldown/abstract/batch-test').all(localstorage, tape, testCommon)
+
 require('./custom-tests.js').all(localstorage, tape, testCommon);
 
 // we need typed arrays
@@ -64,3 +70,4 @@ if (!window.Uint8Array) {
   window.Uint32Array = TypedArray;
   window.Int32Array = TypedArray;
 }
+
