@@ -19,7 +19,8 @@
   "devDependencies": {
     "beefy": "~1.1.0",
     "levelup": "^0.18.2",
-    "tape": "2.3.2"
+    "tape": "2.3.2",
+    "jshint": "^2.5.0"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,8 @@
     "bindings": false
   },
   "scripts": {
-    "test": "beefy tests/test.js"
+    "test": "npm run jshint && beefy tests/test.js",
+    "jshint": "jshint -c .jshintrc *.js"
   },
   "testling": {
     "files": [
