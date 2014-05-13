@@ -13,23 +13,24 @@ function LDIterator(db, options) {
 
   this._dbsize = this.db.container.length();
   this._reverse = !!options.reverse;
-
-  // Test for empty buffer in end
-  if (options.end instanceof Buffer) {
-    if (options.end.length === 0) {
-      this._end = this.db.container.key(this._dbsize - 1);
-    }
-  } else {
-    this._end = options.end;
-  }
-
+  this._end     = options.end;
+  this._start   = options.start;
+  this._gt      = options.gt;
+  this._gte     = options.gte;
+  this._lt      = options.lt;
+  this._lte     = options.lte;
+  this._exclusiveStart = options.exclusiveStart;
   this._limit = options.limit;
   this._count = 0;
 
-  if (options.start) {
-    this._pos = this.db.container.indexOfKey(options.start);
-    if (this._reverse && this.db.container.key(this._pos) !== options.start) {
-      this._pos--;
+  if (this._start) {
+    this._pos = this.db.container.indexOfKey(this._start);
+    if (this._reverse) {
+      if (this._exclusiveStart || this.db.container.key(this._pos) !== this._start) {
+        this._pos--;
+      }
+    } else if (this._exclusiveStart && this.db.container.key(this._pos) === this._start) {
+      this._pos++;
     }
   } else {
     this._pos = this._reverse ? this._dbsize - 1 : 0;
@@ -44,21 +45,26 @@ LDIterator.prototype._next = function (callback) {
     return nextTick(callback);
   }
   var key = this.db.container.key(this._pos);
-  var value;
 
   if (!!this._end && (this._reverse ? key < this._end : key > this._end)) {
     return nextTick(callback);
   }
 
-
   if (!!this._limit && this._limit > 0 && this._count++ >= this._limit) {
     return nextTick(callback);
   }
 
-  value = this.db.container.getItem(key);
+  if ((this._lt  && key >= this._lt) ||
+    (this._lte && key > this._lte) ||
+    (this._gt  && key <= this._gt) ||
+    (this._gte && key < this._gte)) {
+    return nextTick(callback);
+  }
+
+  var value = this.db.container.getItem(key);
   this._pos += this._reverse ? -1 : 1;
 
-  nextTick(callback.bind(null, undefined, key, value));
+  nextTick(function () { callback(null, key, value); });
 };
 
 function LD(location) {
