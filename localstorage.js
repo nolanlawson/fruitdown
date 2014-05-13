@@ -71,13 +71,10 @@ LocalStorage.prototype.getItem = function (key) {
     return retval;
   } else if (uintRegex.test(retval)) {
     value = retval.substring(uintPrefix.length);
-    //This should be in but there seems to be a bug in TAPE?
-    /*
-     retval = new Uint8Array(atob(value).split('').map(function(c) {
-     return c.charCodeAt(0);
-     }));
-     */
-    return atob(value);
+    retval = new Uint8Array(atob(value).split('').map(function(c) {
+      return c.charCodeAt(0);
+    }));
+    return retval;
   }
   return retval;
 };
