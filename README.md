@@ -19,7 +19,7 @@ This project is intended for use with the [level eco-system](https://github.com/
 ## Install
 
 ```
-	npm install localstorage-down
+npm install localstorage-down
 ```
 
 ## Example 
@@ -88,3 +88,5 @@ View console logs in the browser to see test output.
 Anton Whalley https://github.com/no9
 
 Adam Shih https://github.com/adamshih
+
+Nolan Lawson https://github.com/nolanlawson
