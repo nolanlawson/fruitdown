@@ -1,5 +1,7 @@
 'use strict';
 
+var utils = require('./utils');
+
 function LocalStorage(dbname) {
   this._partition = dbname;
   this._keys = [];
@@ -33,20 +35,13 @@ LocalStorage.prototype.setItem = function (key, value) {
 
   if (value instanceof Uint8Array) {
     value = "Uint8Array:" + btoa(String.fromCharCode.apply(null, value));
-
   }
 
-  for (var i = 0; i < this._keys.length; i++) {
-    if (this._keys[i] === key) {
-      window.localStorage.setItem(key, value);
-      return;
-    }
+  var idx = utils.sortedIndexOf(this._keys, key);
+  if (this._keys[idx] !== key) {
+    this._keys.splice(idx, 0, key);
   }
-
-  this._keys.push(key);
-  this._keys.sort();
   window.localStorage.setItem(key, value);
-
 };
 
 //getItem: Returns the item identified by it's key.
@@ -84,11 +79,10 @@ LocalStorage.prototype.getItem = function (key) {
 LocalStorage.prototype.removeItem = function (key) {
   key = this._partition + "!" + key;
 
-  for (var i = this._keys.length; i >= 0; i--) {
-    if (this._keys[i] === key) {
-      this._keys.splice(i, 1);
-      window.localStorage.removeItem(key);
-    }
+  var idx = utils.sortedIndexOf(this._keys, key);
+  if (this._keys[idx] === key) {
+    this._keys.splice(idx, 1);
+    window.localStorage.removeItem(key);
   }
 };
 
