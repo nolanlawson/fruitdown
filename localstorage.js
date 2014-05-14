@@ -71,7 +71,7 @@ LocalStorage.prototype.getItem = function (key) {
     return retval;
   } else if (uintRegex.test(retval)) {
     value = retval.substring(uintPrefix.length);
-    retval = new Uint8Array(atob(value).split('').map(function(c) {
+    retval = new Uint8Array(atob(value).split('').map(function (c) {
       return c.charCodeAt(0);
     }));
     return retval;

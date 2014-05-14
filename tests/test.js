@@ -3,9 +3,9 @@
 var tape   = require('tape');
 var localstorage = require('../');
 var testCommon = require('./testCommon');
-var testBuffer = new Uint8Array('hello'.split('').map(function (c) {
+var testBuffer = new Buffer(new Uint8Array('hello'.split('').map(function (c) {
   return c.charCodeAt(0);
-}));
+})));
 
 require('abstract-leveldown/abstract/leveldown-test').args(localstorage, tape);
 require('abstract-leveldown/abstract/open-test').args(localstorage, tape, testCommon);
