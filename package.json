@@ -43,23 +43,17 @@
       "tests/test.js"
     ],
     "browsers": [
-      "iexplore/10.0",
-      "chrome/30.0",
-      "chrome/31.0",
-      "firefox/25.0",
-      "firefox/24.0",
-      "opera/15.0",
-      "opera/16.0",
-      "opera/17.0",
-      "safari/5.0.5",
-      "safari/5.1",
-      "firefox/nightly",
-      "opera/next",
+      "iexplore/8..latest",
+      "chrome/22..latest",
       "chrome/canary",
-      "iphone/6.0",
-      "ipad/6.0",
-      "safari/6.0",
-      "android-browser/4.2"
+      "firefox/24..latest",
+      "firefox/nightly",
+      "opera/15..latest",
+      "opera/next",
+      "safari/5.0.5..latest",
+      "iphone/latest",
+      "ipad/latest",
+      "android-browser/latest"
     ]
   },
   "license": "MIT",
