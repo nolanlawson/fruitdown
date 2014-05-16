@@ -1,6 +1,6 @@
 # localstorage-down
 
-localstorage implementation of leveldown for mobile and desktop browsers.
+Localstorage implementation of leveldown for mobile and desktop browsers.
 
 The idea is to be able to use the level stack on phone and desktops.
 
@@ -30,34 +30,36 @@ At the command prompt in your chosen directory :
 npm install localstorage-down
 npm install levelup 
 npm install browserify -g
+npm install beefy -g
 ```
 
 Create a file called index.js and enter the following:
 
 ```
-var localstorage = require('localstorage-down')
-  , levelup = require('levelup')
-  , db = levelup('/does/not/matter', { db: localstorage })
+var localstorage = require('localstorage-down');
+var levelup = require('levelup');
+var db = levelup('/does/not/matter', { db: localstorage });
 
-db.put('name', 'Yuri Irsenovich Kim')
-db.put('dob', '16 February 1941')
-db.put('spouse', 'Kim Young-sook')
-db.put('occupation', 'Clown')
+db.put('name', 'Yuri Irsenovich Kim');
+db.put('dob', '16 February 1941');
+db.put('spouse', 'Kim Young-sook');
+db.put('occupation', 'Clown');
 
 db.readStream()
    .on('data', function (data) {
-      if(typeof data.value !== 'undefined') 
-         console.log(data.key, '=', data.value)
+      if (typeof data.value !== 'undefined') {
+         console.log(data.key, '=', data.value);
+      }
    })
    .on('error', function (err) {
-      console.log('Oh my!', err)
+      console.log('Oh my!', err);
    })
    .on('close', function () {
-      console.log('Stream closed')
+      console.log('Stream closed');
    })
    .on('end', function () {
-     console.log('Stream ended')
-   })
+     console.log('Stream ended');
+   });
 ```
 
 Publish the site :
@@ -80,7 +82,7 @@ http://www.youtube.com/watch?v=ExUosomc8Uc
 npm run test
 ```
 
-Browse to http://localhost:9966/ 
+Browse to [http://localhost:9966](http://localhost:9966). 
 View console logs in the browser to see test output. 
 
 ##  Contributors
