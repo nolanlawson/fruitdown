@@ -9,7 +9,7 @@ var utils = require('./utils');
 
 function LocalStorage(dbname) {
   this._keys = [];
-  this._prefix = dbname + '!';
+  this._prefix = dbname.replace(/!/g, '!!') + '!'; // escape bangs in dbname
 
   var prefixLen = this._prefix.length;
   var i = -1;
