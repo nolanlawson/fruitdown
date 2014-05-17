@@ -25,12 +25,7 @@ function LocalStorage(dbname) {
 
 //key: Returns the name of the key at the position specified.
 LocalStorage.prototype.key = function (keyindex) {
-  var retVal = this._keys[keyindex];
-  if (typeof retVal !== 'undefined') {
-    // this needs to be a last and first;
-    retVal = retVal.replace('!bin');
-  }
-  return retVal;
+  return this._keys[keyindex];
 };
 
 // returns the key index if found, else the index where
