@@ -22,6 +22,13 @@ This project is intended for use with the [level eco-system](https://github.com/
 npm install localstorage-down
 ```
 
+## Browser support
+
+Basically we support [any browser that has localStorage](http://caniuse.com/namevalue-storage), but since we also rely on an ES5 environment due to dependencies from abstract-leveldown, in practice you will need the following shims in order to work correctly on all browsers (e.g. IE 8/9):
+
+* [typedarray](https://github.com/substack/typedarray) for binary storage
+* [es5-shim](https://github.com/es-shims/es5-shim) for just about everything
+
 ## Example 
 
 At the command prompt in your chosen directory : 
