@@ -176,7 +176,7 @@ LD.prototype._get = function (key, options, callback) {
     });
   }
 
-  if (!isBuffer(key)) {
+  if (!Buffer.isBuffer(key)) {
     key = String(key);
   }
   this.container.getItem(key, function (err, value) {
@@ -209,7 +209,7 @@ LD.prototype._del = function (key, options, callback) {
       callback(err);
     });
   }
-  if (!isBuffer(key)) {
+  if (!Buffer.isBuffer(key)) {
     key = String(key);
   }
 
@@ -270,10 +270,6 @@ LD.destroy = function (name, callback) {
   LocalStorageCore.destroy(name, callback);
 };
 
-function isBuffer(buf) {
-  return buf instanceof ArrayBuffer;
-}
-
 function checkKeyValue(obj, type) {
   if (obj === null || obj === undefined) {
     return new Error(type + ' cannot be `null` or `undefined`');
@@ -297,7 +293,7 @@ function checkKeyValue(obj, type) {
     }
   }
 
-  if (isBuffer(obj)) {
+  if (Buffer.isBuffer(obj)) {
     if (obj.length === 0) {
       return new Error(type + ' cannot be an empty Buffer');
     }
