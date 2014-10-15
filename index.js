@@ -88,15 +88,16 @@ LDIterator.prototype._next = function (callback) {
         return callback();
       }
 
-      self._pos += self._reverse ? -1 : 1;
-
       self.db.container.getItem(key, function (err, value) {
         if (err) {
           if (err.message === 'NotFound') {
-            return callback();
+            return nextTick(function () {
+              self._next(callback);
+            });
           }
           return callback(err);
         }
+        self._pos += self._reverse ? -1 : 1;
         callback(null, key, value);
       });
     });

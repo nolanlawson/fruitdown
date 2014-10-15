@@ -67,4 +67,91 @@ module.exports.all = function (leveldown, tape, testCommon) {
       });
     });
   });
+
+  tape('delete while iterating', function (t) {
+    var db = leveldown(testCommon.location());
+    var noerr = function (err) {
+      t.error(err, 'opens crrectly');
+    };
+    var noop = function () {};
+    var iterator;
+    db.open(noerr);
+    db.put('a', 'A', noop);
+    db.put('b', 'B', noop);
+    db.put('c', 'C', noop);
+    iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false, start: 'a' });
+    iterator.next(function (err, key, value) {
+      t.equal(key, 'a');
+      t.equal(value, 'A');
+      db.del('b', function (err) {
+        t.notOk(err, 'no error');
+        iterator.next(function (err, key, value) {
+          t.notOk(err, 'no error');
+          t.equals(key, 'c');
+          t.equal(value, 'C');
+          t.end();
+        });
+      });
+    });
+  });
+
+  tape('concurrent batch delete while iterating', function (t) {
+    var db = leveldown(testCommon.location());
+    var noerr = function (err) {
+      t.error(err, 'opens crrectly');
+    };
+    var noop = function () {};
+    var iterator;
+    db.open(noerr);
+    db.put('a', 'A', noop);
+    db.put('b', 'B', noop);
+    db.put('c', 'C', noop);
+    iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false, start: 'a' });
+    iterator.next(function (err, key, value) {
+      t.equal(key, 'a');
+      t.equal(value, 'A');
+      db.batch([{
+        type: 'del',
+        key: 'b'
+      }], noerr);
+      iterator.next(function (err, key, value) {
+        t.notOk(err, 'no error');
+        // on backends that support snapshots, it will be 'b'.
+        // else it will be 'c'
+        t.ok(key, 'key should exist');
+        t.ok(value, 'value should exist');
+        t.end();
+      });
+    });
+  });
+
+  tape('iterate past end of db', function (t) {
+    var db = leveldown('aaaaaa');
+    var db2 = leveldown('bbbbbb');
+    var noerr = function (err) {
+      t.error(err, 'opens crrectly');
+    };
+    var noop = function () {};
+    var iterator;
+    db.open(noerr);
+    db2.open(noerr);
+    db.put('1', '1', noop);
+    db.put('2', '2', noop);
+    db2.put('3', '3', noop);
+    iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false, start: '1' });
+    iterator.next(function (err, key, value) {
+      t.equal(key, '1');
+      t.equal(value, '1');
+      t.notOk(err, 'no error');
+      iterator.next(function (err, key, value) {
+        t.notOk(err, 'no error');
+        t.equals(key, '2');
+        t.equal(value, '2');
+        iterator.next(function (err, key, value) {
+          t.notOk(key, 'should not actually have a key');
+          t.end();
+        });
+      });
+    });
+  });
 };
