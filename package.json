@@ -12,7 +12,7 @@
     "leveldown",
     "levelup"
   ],
-  "version": "0.6.2",
+  "version": "0.6.3",
   "main": "index.js",
   "dependencies": {
     "abstract-leveldown": "0.12.3",
