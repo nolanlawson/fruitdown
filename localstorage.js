@@ -38,25 +38,10 @@ LocalStorage.prototype.init = function (callback) {
   });
 };
 
-// returns the key index if found, else the index where
-// the key should be inserted. also returns the key
-// at that index
-LocalStorage.prototype.binarySearch = function (key, callback) {
+LocalStorage.prototype.keys = function (callback) {
   var self = this;
   self.sequentialize(callback, function (callback) {
-    var index = utils.sortedIndexOf(self._keys, key);
-    var foundKey = (index >= self._keys.length || index < 0) ?
-        undefined : self._keys[index];
-    callback(null, {index: index, key: foundKey});
-  });
-};
-
-LocalStorage.prototype.getKeyAt = function (index, callback) {
-  var self = this;
-  self.sequentialize(callback, function (callback) {
-    var foundKey = (index >= self._keys.length || index < 0) ?
-      undefined : self._keys[index];
-    callback(null, foundKey);
+    callback(null, self._keys.slice());
   });
 };
 

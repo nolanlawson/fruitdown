@@ -87,9 +87,43 @@ module.exports.all = function (leveldown, tape, testCommon) {
         t.notOk(err, 'no error');
         iterator.next(function (err, key, value) {
           t.notOk(err, 'no error');
-          t.equals(key, 'c');
-          t.equal(value, 'C');
+          t.ok(key, 'key exists');
+          t.ok(value, 'value exists');
           t.end();
+        });
+      });
+    });
+  });
+
+  tape('add many while iterating', function (t) {
+    var db = leveldown(testCommon.location());
+    var noerr = function (err) {
+      t.error(err, 'opens crrectly');
+    };
+    var noop = function () {};
+    var iterator;
+    db.open(noerr);
+    db.put('c', 'C', noop);
+    db.put('d', 'D', noop);
+    db.put('e', 'E', noop);
+    iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false, start: 'c' });
+    iterator.next(function (err, key, value) {
+      t.equal(key, 'c');
+      t.equal(value, 'C');
+      db.del('c', function (err) {
+        t.notOk(err, 'no error');
+        db.put('a', 'A', function (err) {
+          t.notOk(err, 'no error');
+          db.put('b', 'B', function (err) {
+            t.notOk(err, 'no error');
+            iterator.next(function (err, key, value) {
+              t.notOk(err, 'no error');
+              t.ok(key, 'key exists');
+              t.ok(value, 'value exists');
+              t.ok(key >= 'c', 'key "' + key + '" should be greater than c');
+              t.end();
+            });
+          });
         });
       });
     });
