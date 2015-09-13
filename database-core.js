@@ -43,7 +43,7 @@ function getDatabase(dbName, callback) {
 
     // use an extra index because that way we can use openKeyCursor,
     // which isn't available in IndexedDB 1.0 for stores, only indexes
-    db.createObjectStore(STORE, {autoIncrement: true})
+    db.createObjectStore(STORE, {keyPath : 'id'})
       .createIndex('key', 'key', {unique: true});
 
   };
@@ -88,6 +88,7 @@ StorageCore.prototype.getKeys = function (callback) {
 
     var keys = [];
     txn.oncomplete = function () {
+      console.log('keys', keys);
       callback(null, keys);
     };
 
@@ -117,7 +118,7 @@ StorageCore.prototype.put = function (key, value, callback) {
     var store = txn.objectStore(STORE);
 
     var valueToStore = typeof value === 'string' ? value : value.toString();
-    var doc = {key: key, value: valueToStore};
+    var doc = {key: key, value: valueToStore, id: Math.random() * 100000};
     var req = store.put(doc);
 
     req.onerror = function (e) {
