@@ -1,6 +1,6 @@
 {
-  "name": "localstorage-down",
-  "description": "A Node.js and browserify leveldown API implementation that maps to localstorage in the browser",
+  "name": "fruitdown",
+  "description": "A browser-based LevelDOWN adapter that works over all IndexedDB implementations, including Apple's",
   "contributors": [
     "Anton Whalley <antonwhalley@vodafone.ie> (https://github.com/no9)",
     "Adam Shih (https://github.com/adamshih)",
@@ -8,11 +8,13 @@
   ],
   "keywords": [
     "leveldb",
-    "localstorage",
+    "indexeddb",
+    "safari",
+    "apple",
     "leveldown",
     "levelup"
   ],
-  "version": "0.6.3",
+  "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
     "abstract-leveldown": "0.12.3",
@@ -30,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/no9/localstorage-down.git"
+    "url": "https://github.com/nolanlawson/fruitdown.git"
   },
   "browser": {
     "bindings": false
@@ -38,24 +40,6 @@
   "scripts": {
     "test": "npm run jshint && beefy tests/test.js",
     "jshint": "jshint -c .jshintrc *.js tests/*.js"
-  },
-  "testling": {
-    "files": [
-      "tests/test.js"
-    ],
-    "browsers": [
-      "iexplore/8..latest",
-      "chrome/22..latest",
-      "chrome/canary",
-      "firefox/24..latest",
-      "firefox/nightly",
-      "opera/15..latest",
-      "opera/next",
-      "safari/5.0.5..latest",
-      "iphone/latest",
-      "ipad/latest",
-      "android-browser/latest"
-    ]
   },
   "license": "MIT",
   "gypfile": false

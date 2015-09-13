@@ -4,14 +4,14 @@ var inherits = require('inherits');
 var AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN;
 var AbstractIterator = require('abstract-leveldown').AbstractIterator;
 
-var LocalStorage = require('./localstorage').LocalStorage;
-var LocalStorageCore = require('./localstorage-core');
+var Database = require('./database');
+var DatabaseCore = require('./database-core');
 var utils = require('./utils');
 
 // see http://stackoverflow.com/a/15349865/680742
 var nextTick = global.setImmediate || process.nextTick;
 
-function LDIterator(db, options) {
+function DatabaseIterator(db, options) {
 
   AbstractIterator.call(this, db);
 
@@ -29,15 +29,15 @@ function LDIterator(db, options) {
   this.onInitCompleteListeners = [];
 }
 
-inherits(LDIterator, AbstractIterator);
+inherits(DatabaseIterator, AbstractIterator);
 
-LDIterator.prototype._init = function (callback) {
+DatabaseIterator.prototype._init = function (callback) {
   nextTick(function () {
     callback();
   });
 };
 
-LDIterator.prototype._next = function (callback) {
+DatabaseIterator.prototype._next = function (callback) {
   var self = this;
 
   function onInitComplete() {
@@ -117,21 +117,21 @@ LDIterator.prototype._next = function (callback) {
   }
 };
 
-function LD(location) {
-  if (!(this instanceof LD)) {
-    return new LD(location);
+function FruitDown(location) {
+  if (!(this instanceof FruitDown)) {
+    return new FruitDown(location);
   }
   AbstractLevelDOWN.call(this, location);
-  this.container = new LocalStorage(location);
+  this.container = new Database(location);
 }
 
-inherits(LD, AbstractLevelDOWN);
+inherits(FruitDown, AbstractLevelDOWN);
 
-LD.prototype._open = function (options, callback) {
+FruitDown.prototype._open = function (options, callback) {
   this.container.init(callback);
 };
 
-LD.prototype._put = function (key, value, options, callback) {
+FruitDown.prototype._put = function (key, value, options, callback) {
 
   var err = checkKeyValue(key, 'key');
 
@@ -159,7 +159,7 @@ LD.prototype._put = function (key, value, options, callback) {
   this.container.setItem(key, value, callback);
 };
 
-LD.prototype._get = function (key, options, callback) {
+FruitDown.prototype._get = function (key, options, callback) {
 
   var err = checkKeyValue(key, 'key');
 
@@ -193,7 +193,7 @@ LD.prototype._get = function (key, options, callback) {
   });
 };
 
-LD.prototype._del = function (key, options, callback) {
+FruitDown.prototype._del = function (key, options, callback) {
 
   var err = checkKeyValue(key, 'key');
 
@@ -209,7 +209,7 @@ LD.prototype._del = function (key, options, callback) {
   this.container.removeItem(key, callback);
 };
 
-LD.prototype._batch = function (array, options, callback) {
+FruitDown.prototype._batch = function (array, options, callback) {
   var self = this;
   nextTick(function () {
     var err;
@@ -255,12 +255,12 @@ LD.prototype._batch = function (array, options, callback) {
   });
 };
 
-LD.prototype._iterator = function (options) {
-  return new LDIterator(this, options);
+FruitDown.prototype._iterator = function (options) {
+  return new DatabaseIterator(this, options);
 };
 
-LD.destroy = function (name, callback) {
-  LocalStorageCore.destroy(name, callback);
+FruitDown.destroy = function (name, callback) {
+  DatabaseCore.destroy(name, callback);
 };
 
 function checkKeyValue(obj, type) {
@@ -295,5 +295,4 @@ function checkKeyValue(obj, type) {
   }
 }
 
-
-module.exports = LD;
+module.exports = FruitDown;

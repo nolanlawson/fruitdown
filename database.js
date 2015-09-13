@@ -12,20 +12,20 @@ var bufferPrefix = 'Buff:';
 var bufferRegex = new RegExp('^' + bufferPrefix);
 
 var utils = require('./utils');
-var LocalStorageCore = require('./localstorage-core');
+var DatabaseCore = require('./database-core');
 var TaskQueue = require('./taskqueue');
 var d64 = require('d64');
 
-function LocalStorage(dbname) {
-  this._store = new LocalStorageCore(dbname);
+function Database(dbname) {
+  this._store = new DatabaseCore(dbname);
   this._queue = new TaskQueue();
 }
 
-LocalStorage.prototype.sequentialize = function (callback, fun) {
+Database.prototype.sequentialize = function (callback, fun) {
   this._queue.add(fun, callback);
 };
 
-LocalStorage.prototype.init = function (callback) {
+Database.prototype.init = function (callback) {
   var self = this;
   self.sequentialize(callback, function (callback) {
     self._store.getKeys(function (err, keys) {
@@ -38,7 +38,7 @@ LocalStorage.prototype.init = function (callback) {
   });
 };
 
-LocalStorage.prototype.keys = function (callback) {
+Database.prototype.keys = function (callback) {
   var self = this;
   self.sequentialize(callback, function (callback) {
     callback(null, self._keys.slice());
@@ -46,7 +46,7 @@ LocalStorage.prototype.keys = function (callback) {
 };
 
 //setItem: Saves and item at the key provided.
-LocalStorage.prototype.setItem = function (key, value, callback) {
+Database.prototype.setItem = function (key, value, callback) {
   var self = this;
   self.sequentialize(callback, function (callback) {
     if (Buffer.isBuffer(value)) {
@@ -62,7 +62,7 @@ LocalStorage.prototype.setItem = function (key, value, callback) {
 };
 
 //getItem: Returns the item identified by it's key.
-LocalStorage.prototype.getItem = function (key, callback) {
+Database.prototype.getItem = function (key, callback) {
   var self = this;
   self.sequentialize(callback, function (callback) {
     self._store.get(key, function (err, retval) {
@@ -98,7 +98,7 @@ LocalStorage.prototype.getItem = function (key, callback) {
 };
 
 //removeItem: Removes the item identified by it's key.
-LocalStorage.prototype.removeItem = function (key, callback) {
+Database.prototype.removeItem = function (key, callback) {
   var self = this;
   self.sequentialize(callback, function (callback) {
     var idx = utils.sortedIndexOf(self._keys, key);
@@ -116,11 +116,11 @@ LocalStorage.prototype.removeItem = function (key, callback) {
   });
 };
 
-LocalStorage.prototype.length = function (callback) {
+Database.prototype.length = function (callback) {
   var self = this;
   self.sequentialize(callback, function (callback) {
     callback(null, self._keys.length);
   });
 };
 
-exports.LocalStorage = LocalStorage;
+module.exports = Database;

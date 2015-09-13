@@ -11,9 +11,7 @@ var lastLocation = function () {
 
 var cleanup = function (callback) {
 
-  if (window.localStorage) {
-    window.localStorage.clear();
-  }
+  // TODO
 
   return callback();
 };

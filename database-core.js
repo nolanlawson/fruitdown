@@ -8,31 +8,17 @@
 // reimplement this file.
 //
 
-// see http://stackoverflow.com/a/15349865/680742
-var nextTick = global.setImmediate || process.nextTick;
-
-function callbackify(callback, fun) {
-  var val;
-  var err;
-  try {
-    val = fun();
-  } catch (e) {
-    err = e;
-  }
-  nextTick(function () {
-    callback(err, val);
-  });
-}
+var callbackify = require('./callbackify');
 
 function createPrefix(dbname) {
   return dbname.replace(/!/g, '!!') + '!'; // escape bangs in dbname;
 }
 
-function LocalStorageCore(dbname) {
+function StorageCore(dbname) {
   this._prefix = createPrefix(dbname);
 }
 
-LocalStorageCore.prototype.getKeys = function (callback) {
+StorageCore.prototype.getKeys = function (callback) {
   var self = this;
   callbackify(callback, function () {
     var keys = [];
@@ -50,28 +36,28 @@ LocalStorageCore.prototype.getKeys = function (callback) {
   });
 };
 
-LocalStorageCore.prototype.put = function (key, value, callback) {
+StorageCore.prototype.put = function (key, value, callback) {
   var self = this;
   callbackify(callback, function () {
     window.localStorage.setItem(self._prefix + key, value);
   });
 };
 
-LocalStorageCore.prototype.get = function (key, callback) {
+StorageCore.prototype.get = function (key, callback) {
   var self = this;
   callbackify(callback, function () {
     return window.localStorage.getItem(self._prefix + key);
   });
 };
 
-LocalStorageCore.prototype.remove = function (key, callback) {
+StorageCore.prototype.remove = function (key, callback) {
   var self = this;
   callbackify(callback, function () {
     window.localStorage.removeItem(self._prefix + key);
   });
 };
 
-LocalStorageCore.destroy = function (dbname, callback) {
+StorageCore.destroy = function (dbname, callback) {
   var prefix = createPrefix(dbname);
   callbackify(callback, function () {
     Object.keys(localStorage).forEach(function (key) {
@@ -82,4 +68,4 @@ LocalStorageCore.destroy = function (dbname, callback) {
   });
 };
 
-module.exports = LocalStorageCore;
+module.exports = StorageCore;

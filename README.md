@@ -1,16 +1,18 @@
-# localstorage-down
+# FruitDOWN
 
-Localstorage implementation of leveldown for mobile and desktop browsers.
+A browser-based LevelDOWN adapter that works over all implementations of IndexedDB, including Apple's buggy version.
 
-The idea is to be able to use the level stack on phone and desktops.
+This is designed for environments where you can't use WebSQL as a polyfill for Apple browsers, such as:
 
-The scenarios envisaged are : 
-
-1. Occasionally connected clients
-
-2. Adhoc Networks where clients need to sync directly with each other.  
+* WKWebView, which [doesn't have WebSQL](https://bugs.webkit.org/show_bug.cgi?id=137760)
+* Safari/iOS, but don't want [an annoying popup](http://pouchdb.com/errors.html#not_enough_space) after you reach 5MB
+* Safari/iOS, but you need to store more than 50MB, which [doesn't work in WebSQL](http://www.html5rocks.com/en/tutorials/offline/quota-research/) but [works in IndexedDB](https://github.com/nolanlawson/database-filler).
 
 This project is intended for use with the [level eco-system](https://github.com/level/).
+
+## Design
+
+This project is a fork of [localstorage-down](https://github.com/No9/localstorage-down).
 
 ## Status 
 
