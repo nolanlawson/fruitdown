@@ -17,6 +17,12 @@ var nextTick = global.setImmediate || process.nextTick;
 var cachedDBs = {};
 var openReqList = {};
 
+// Yes I'm sniffing the userAgent, so sue me
+var isSafari = typeof openDatabase !== 'undefined' &&
+  /(Safari|iPhone|iPad|iPod)/.test(navigator.userAgent) &&
+  !/Chrome/.test(navigator.userAgent) &&
+  !/BlackBerry/.test(navigator.platform);
+
 function StorageCore(dbName) {
   this._dbName = dbName;
 }
@@ -43,7 +49,7 @@ function getDatabase(dbName, callback) {
 
     // use an extra index because that way we can use openKeyCursor,
     // which isn't available in IndexedDB 1.0 for stores, only indexes
-    db.createObjectStore(STORE, {keyPath : 'id'})
+    db.createObjectStore(STORE, {autoIncrement: true})
       .createIndex('key', 'key', {unique: true});
 
   };
@@ -88,7 +94,6 @@ StorageCore.prototype.getKeys = function (callback) {
 
     var keys = [];
     txn.oncomplete = function () {
-      console.log('keys', keys);
       callback(null, keys);
     };
 
@@ -118,25 +123,45 @@ StorageCore.prototype.put = function (key, value, callback) {
     var store = txn.objectStore(STORE);
 
     var valueToStore = typeof value === 'string' ? value : value.toString();
-    var doc = {key: key, value: valueToStore, id: Math.random() * 100000};
-    var req = store.put(doc);
-
-    req.onerror = function (e) {
-      // ConstraintError, need to update, not put
-      e.preventDefault(); // avoid transaction abort
-      e.stopPropagation(); // avoid transaction onerror
-
-      var range = IDBKeyRange.bound(key, key + '\xff');
-      store.index('key').openKeyCursor(range).onsuccess = function (e) {
-        var cursor = e.target.result;
-        store.put(doc, cursor.primaryKey);
-      };
-    };
+    var doc = {key: key, value: valueToStore};
 
     txn.onerror = callback;
     txn.oncomplete = function () {
       callback();
     };
+
+    function putDoc() {
+      var req = store.put(doc);
+
+      req.onerror = function (e) {
+        // ConstraintError, need to update, not put
+        e.preventDefault(); // avoid transaction abort
+        e.stopPropagation(); // avoid transaction onerror
+
+        var range = IDBKeyRange.bound(key, key + '\xff');
+        store.index('key').openKeyCursor(range).onsuccess = function (e) {
+          var cursor = e.target.result;
+          store.put(doc, cursor.primaryKey);
+        };
+      };
+    }
+
+    if (isSafari) {
+      // Safari has a bug where they don't throw ConstraintErrors:
+      // https://bugs.webkit.org/show_bug.cgi?id=149107
+      // So do a get() first to check, which is avoided in other browsers
+      // because it slows down this operation.
+      var range = IDBKeyRange.bound(key, key + '\xff');
+      store.index('key').openKeyCursor(range).onsuccess = function (e) {
+        var cursor = e.target.result;
+        if (cursor && cursor.primaryKey) {
+          store.delete(cursor.primaryKey);
+        }
+        putDoc();
+      };
+    } else {
+      putDoc();
+    }
   });
 };
 
