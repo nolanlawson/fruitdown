@@ -2,88 +2,54 @@
 
 A browser-based LevelDOWN adapter that works over all implementations of IndexedDB, including Apple's buggy version.
 
-This is designed for environments where you can't use WebSQL as a polyfill for Apple browsers, such as:
+This is designed for environments where you can't use WebSQL as a polyfill for Safari browsers, such as:
 
 * WKWebView, which [doesn't have WebSQL](https://bugs.webkit.org/show_bug.cgi?id=137760)
-* Safari/iOS, but don't want [an annoying popup](http://pouchdb.com/errors.html#not_enough_space) after you reach 5MB
-* Safari/iOS, but you need to store more than 50MB, which [doesn't work in WebSQL](http://www.html5rocks.com/en/tutorials/offline/quota-research/) but [works in IndexedDB](https://github.com/nolanlawson/database-filler).
+* Safari/iOS, but you don't want [an annoying popup](http://pouchdb.com/errors.html#not_enough_space) after you reach 5MB
+* Safari/iOS, but you need to store more than 50MB, which [doesn't work in WebSQL](http://www.html5rocks.com/en/tutorials/offline/quota-research/) but [works in IndexedDB](https://github.com/nolanlawson/database-filler)
 
-This project is intended for use with the [level eco-system](https://github.com/level/).
-
-## Design
-
-This project is a fork of [localstorage-down](https://github.com/No9/localstorage-down).
-
-## Status 
-
-[![browser support](https://ci.testling.com/no9/localstorage-down.png)](https://ci.testling.com/no9/localstorage-down)
+This project is intended for use with the [Level ecosystem](https://github.com/level/), including as a [PouchDB](http://pouchdb.com) adapter (coming soon).
 
 ## Install
 
 ```
-npm install localstorage-down
+npm install fruitdown
 ```
+
+## Background
+
+Cross-browser IndexedDB support is pretty awful these days. Every browser except for Chrome and Firefox has tons of bugs, but Apple's are [arguably the worst](http://www.raymondcamden.com/2014/09/25/IndexedDB-on-iOS-8-Broken-Bad).  While there are well-known workarounds for [Microsoft's bugs](https://gist.github.com/nolanlawson/a841ee23436410f37168), most IndexedDB wrappers just gave up and didn't support Apple IndexedDB. [PouchDB](http://pouchdb.com), [LocalForage](http://mozilla.github.io/localForage/), [YDN-DB](http://dev.yathit.com/ydn-db/downloads.html), [Lovefield](https://github.com/google/lovefield), [Dexie](http://dexie.org/), and [Level.js](https://github.com/maxogden/level.js) all either fall back to WebSQL or recommend that you use the [IndexedDBShim](https://github.com/axemclion/IndexedDBShim).
+
+This library is different. It does all the crazy backflips you have to do to support Apple IndexedDB.
+
+## Design
+
+This project is a fork of [localstorage-down](https://github.com/No9/localstorage-down). It uses a tiny subset of the IndexedDB API &ndash; just those things that are supported in Firefox, Chrome, Safari, and IE. The #1 goal is compatibility with as many browsers as possible. The #2 goal is performance.
+
+All keys are kept in memory at all times, which is bad for memory usage but actually improves performance, because IDBCursors are slow. However, the database creates two indexes, because 1) the primary index does not support `openKeyCursor()` per the IndexedDB 1.0 spec, and we want to use it to avoid reading in large values during key iteration, but 2) secondary indexes [do not correctly throw ConstraintErrors in Safari](https://bugs.webkit.org/show_bug.cgi?id=149107). So unfortunately keys are indexed twice. ¯\\\_(ツ)\_/¯
+
+Another limitation is that both keys and values are converted to strings before being stored. So instead of efficiently using Blobs or even JSON objects, binary strings are stored instead. This is okay, though, because Chrome < 43 (and therefore pre-Lollipop Android) [does not store Blobs correctly](https://code.google.com/p/chromium/issues/detail?id=447836), and Safari [doesn't support Blob storage either](https://bugs.webkit.org/show_bug.cgi?id=143193).
+
+To avoid [concurrency bugs in IE/Edge](https://gist.github.com/nolanlawson/a841ee23436410f37168), this project borrows PouchDB's system of maintaining a global cache of databases and only ever using one database per name. This should have zero impact on performance.
 
 ## Browser support
 
-Basically we support [any browser that has localStorage](http://caniuse.com/namevalue-storage), but since we also rely on an ES5 environment due to dependencies from abstract-leveldown, in practice you will need the following shims in order to work correctly on all browsers (e.g. IE 8/9):
+FruitDOWN supports [any browser that has IndexedDB](http://caniuse.com/#feat=indexeddb), even those with partial support. Notably:
 
-* [typedarray](https://github.com/substack/typedarray) for binary storage
-* [es5-shim](https://github.com/es-shims/es5-shim) for just about everything
+* Safari 7.1+
+* iOS 8+
+* IE 10+
+* Chrome 23+
+* Firefox 10+
+* Android 4.4+
 
-## Example 
+The buggy [Samsung/HTC IndexedDB variants](https://github.com/pouchdb/pouchdb/issues/1207) based on an older version of the IndexedDB spec, which you will occasionally find in Android 4.3, are not supported.
 
-At the command prompt in your chosen directory : 
 
-```
-npm install localstorage-down
-npm install levelup 
-npm install browserify -g
-npm install beefy -g
-```
+## Future
 
-Create a file called index.js and enter the following:
+Apple have [pledged to fix IndexedDB](https://twitter.com/grorgwork/status/618152677281697792). When they do, you should stop using this library and use [Level.js](https://github.com/maxogden/level.js) or another IndexedDB wrapper instead.
 
-```
-var localstorage = require('localstorage-down');
-var levelup = require('levelup');
-var db = levelup('/does/not/matter', { db: localstorage });
-
-db.put('name', 'Yuri Irsenovich Kim');
-db.put('dob', '16 February 1941');
-db.put('spouse', 'Kim Young-sook');
-db.put('occupation', 'Clown');
-
-db.readStream()
-   .on('data', function (data) {
-      if (typeof data.value !== 'undefined') {
-         console.log(data.key, '=', data.value);
-      }
-   })
-   .on('error', function (err) {
-      console.log('Oh my!', err);
-   })
-   .on('close', function () {
-      console.log('Stream closed');
-   })
-   .on('end', function () {
-     console.log('Stream ended');
-   });
-```
-
-Publish the site :
-
-```
-beefy index.js
-```
-
-See the output :
-
-[http://localhost:9966](http://localhost:9966)
-
-Listen to John Cage :
-
-http://www.youtube.com/watch?v=ExUosomc8Uc 
 
 ## Tests
 
@@ -94,10 +60,6 @@ npm run test
 Browse to [http://localhost:9966](http://localhost:9966). 
 View console logs in the browser to see test output. 
 
-##  Contributors
+##  Thanks
 
-Anton Whalley https://github.com/no9
-
-Adam Shih https://github.com/adamshih
-
-Nolan Lawson https://github.com/nolanlawson
+Thanks to [Anton Whalley](https://github.com/no9), [Adam Shih](https://github.com/adamshih) and everybody else who contributed to localstorage-down. Also thanks to everybody who worked on PouchDB, where most of these IndexedDB bugs were discovered.
