@@ -2,8 +2,6 @@
   "name": "fruitdown",
   "description": "A browser-based LevelDOWN adapter that works over all IndexedDB implementations, including Apple's",
   "contributors": [
-    "Anton Whalley <antonwhalley@vodafone.ie> (https://github.com/no9)",
-    "Adam Shih (https://github.com/adamshih)",
     "Nolan Lawson (https://github.com/nolanlawson)"
   ],
   "keywords": [
