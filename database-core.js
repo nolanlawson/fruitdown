@@ -41,7 +41,11 @@ function getDatabase(dbName, callback) {
       return;
     }
 
-    db.createObjectStore(STORE);
+    // Create a superfluous secondary index purely so we can do
+    // openKeyCursor(). (Limitation of the IndexedDB API, fixed in v2.0.)
+    // We would also use this for detecting ConstraintErrors, but that
+    // doesn't work in Safari: https://bugs.webkit.org/show_bug.cgi?id=149107
+    db.createObjectStore(STORE).createIndex('fakeKey', 'fakeKey');
 
   };
 
@@ -85,18 +89,19 @@ StorageCore.prototype.getKeys = function (callback) {
 
     var keys = [];
     txn.oncomplete = function () {
-      console.log('keys', keys);
       callback(null, keys);
     };
 
-    var req = store.openCursor();
+    // using openKeyCursor avoids reading in the whole value,
+    // which may be large
+    var req = store.index('fakeKey').openKeyCursor();
 
     req.onsuccess = function (e) {
       var cursor = e.target.result;
       if (!cursor) {
         return;
       }
-      keys.push(cursor.value.key);
+      keys.push(cursor.primaryKey);
       cursor.continue();
     };
   });
@@ -121,7 +126,7 @@ StorageCore.prototype.put = function (key, value, callback) {
       callback();
     };
 
-    store.put({value: valueToStore}, key);
+    store.put({value: valueToStore, fakeKey: 0}, key);
   });
 };
 
