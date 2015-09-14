@@ -6,7 +6,8 @@ node_js:
 git:
   depth: 10
 
-sudo: false
+addons:
+  sauce_connect: true
 
 script: npm run $COMMAND
 

@@ -42,7 +42,8 @@
     "dev": "npm run jshint && beefy tests/test.js",
     "jshint": "jshint -c .jshintrc *.js tests/*.js",
     "test": "npm run jshint && npm run test-browser",
-    "test-browser": "browserify tests/test.js | tap-closer | smokestack -b $BROWSER | tap-spec"
+    "test-browser": "browserify tests/test.js | tap-closer | smokestack -b $BROWSER | tap-spec",
+    "test-saucelabs": "browserify tests/test.js | tap-closer | smokestack -s -b $BROWSER | tap-spec"
   },
   "license": "MIT",
   "gypfile": false
