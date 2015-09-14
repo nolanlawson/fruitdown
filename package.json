@@ -24,6 +24,7 @@
   "devDependencies": {
     "beefy": "~1.1.0",
     "browserify": "^11.1.0",
+    "brtapsauce": "^1.0.0",
     "jshint": "^2.5.0",
     "levelup": "^0.18.2",
     "smokestack": "^3.3.1",
@@ -43,7 +44,7 @@
     "jshint": "jshint -c .jshintrc *.js tests/*.js",
     "test": "npm run jshint && npm run test-browser",
     "test-browser": "browserify tests/test.js | tap-closer | smokestack -b $BROWSER | tap-spec",
-    "test-saucelabs": "browserify tests/test.js | tap-closer | smokestack -s -b $BROWSER | tap-spec"
+    "test-saucelabs": "browserify tests/test.js > saucelabs/browserified.js && node saucelabs/test.js"
   },
   "license": "MIT",
   "gypfile": false
