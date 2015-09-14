@@ -20,13 +20,13 @@ npm install fruitdown
 
 ## Background
 
-Cross-browser IndexedDB support is pretty awful these days. Every browser except for Chrome and Firefox has tons of bugs, but Apple's are [arguably the worst](http://www.raymondcamden.com/2014/09/25/IndexedDB-on-iOS-8-Broken-Bad).  While there are well-known workarounds for [Microsoft's bugs](https://gist.github.com/nolanlawson/a841ee23436410f37168), most IndexedDB wrappers just gave up and didn't support Apple IndexedDB. [PouchDB](http://pouchdb.com), [LocalForage](http://mozilla.github.io/localForage/), [YDN-DB](http://dev.yathit.com/ydn-db/downloads.html), [Lovefield](https://github.com/google/lovefield), [Dexie](http://dexie.org/), and [Level.js](https://github.com/maxogden/level.js) all either fall back to WebSQL or recommend that you use the [IndexedDBShim](https://github.com/axemclion/IndexedDBShim).
+Cross-browser IndexedDB support is pretty awful these days. Every browser except for Chrome and Firefox has tons of bugs, but Safari's are [arguably the worst](http://www.raymondcamden.com/2014/09/25/IndexedDB-on-iOS-8-Broken-Bad).  While there are well-known workarounds for [Microsoft's bugs](https://gist.github.com/nolanlawson/a841ee23436410f37168), most IndexedDB wrappers just gave up and didn't support Apple IndexedDB. [PouchDB](http://pouchdb.com), [LocalForage](http://mozilla.github.io/localForage/), [YDN-DB](http://dev.yathit.com/ydn-db/downloads.html), [Lovefield](https://github.com/google/lovefield), [Dexie](http://dexie.org/), and [Level.js](https://github.com/maxogden/level.js) all either fall back to WebSQL or recommend that you use the [IndexedDBShim](https://github.com/axemclion/IndexedDBShim).
 
 This library is different. It does all the crazy backflips you have to do to support Apple IndexedDB.
 
 ## Design
 
-This project is a fork of [localstorage-down](https://github.com/No9/localstorage-down). It uses a tiny subset of the IndexedDB API &ndash; just those things that are supported in Firefox, Chrome, Safari, and IE. The #1 goal is compatibility with as many browsers as possible. The #2 goal is performance.
+This project is a fork of [localstorage-down](https://github.com/No9/localstorage-down). It uses a tiny subset of the IndexedDB API &ndash; just those parts that are supported in Firefox, Chrome, Safari, and IE. The #1 goal is compatibility with as many browsers as possible. The #2 goal is performance.
 
 Only one object store is ever opened, because Apple's implementation does not allow you to open more than one at once. So presumably you would use something like [level-sublevel](https://github.com/dominictarr/level-sublevel/) to prefix keys. Also every operation is its own transaction, so you should not count on standard IndexedDB transaction guarantees, even when you use `batch()`. However, internally the lib does its own batching, and supports [snapshots](https://github.com/Level/leveldown#snapshots).
 
