@@ -22,7 +22,7 @@ npm install fruitdown
 
 IndexedDB support is pretty awful these days. Every browser except for Chrome and Firefox has tons of bugs, but Safari's are arguably [the](https://gist.github.com/nolanlawson/08eb857c6b17a30c1b26) [worst](http://www.raymondcamden.com/2014/09/25/IndexedDB-on-iOS-8-Broken-Bad).  While there are well-known workarounds for [Microsoft's bugs](https://gist.github.com/nolanlawson/a841ee23436410f37168), most IndexedDB wrappers just gave up and didn't support Apple IndexedDB. [PouchDB](http://pouchdb.com), [LocalForage](http://mozilla.github.io/localForage/), [YDN-DB](http://dev.yathit.com/ydn-db/downloads.html), [Lovefield](https://github.com/google/lovefield), [Dexie](http://dexie.org/), and [Level.js](https://github.com/maxogden/level.js) all either fall back to WebSQL or recommend that you use the [IndexedDBShim](https://github.com/axemclion/IndexedDBShim).
 
-This library is different. It does all the crazy backflips you have to do to support Apple IndexedDB.
+This library is different. It does all the weird backflips you have to do to support Apple IndexedDB.
 
 ## Design
 
