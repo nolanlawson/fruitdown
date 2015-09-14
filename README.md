@@ -1,5 +1,7 @@
 # FruitDOWN
 
+[![Build Status](https://travis-ci.org/nolanlawson/fruitdown.svg?branch=master)](https://travis-ci.org/nolanlawson/fruitdown)
+
 A browser-based LevelDOWN adapter that works over all implementations of IndexedDB, including Apple's buggy version.
 
 This is designed for environments where you can't use WebSQL as a polyfill for Safari browsers, such as:
