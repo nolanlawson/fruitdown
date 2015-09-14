@@ -8,7 +8,7 @@ This is designed for environments where you can't use WebSQL as a polyfill for S
 
 * WKWebView, which [doesn't have WebSQL](https://bugs.webkit.org/show_bug.cgi?id=137760)
 * Safari/iOS, but you don't want [an annoying popup](http://pouchdb.com/errors.html#not_enough_space) after you reach 5MB
-* Safari/iOS, but you need to store more than 50MB, which [doesn't work in WebSQL](http://www.html5rocks.com/en/tutorials/offline/quota-research/) but [works in IndexedDB](https://github.com/nolanlawson/database-filler)
+* iOS, but you need to store more than 50MB, which [works in IndexedDB](https://github.com/nolanlawson/database-filler) but [not in WebSQL](http://www.html5rocks.com/en/tutorials/offline/quota-research/)
 
 This project is intended for use with the [Level ecosystem](https://github.com/level/), including as a [PouchDB](http://pouchdb.com) adapter (coming soon).
 
