@@ -56,11 +56,17 @@ Apple have [pledged to fix IndexedDB](https://twitter.com/grorgwork/status/61815
 ## Tests
 
 ```
-npm run test
+npm run dev
 ```
 
 Browse to [http://localhost:9966](http://localhost:9966). 
 View console logs in the browser to see test output. 
+
+## Automated tests
+
+```
+BROWSER=firefox npm test
+```
 
 ##  Thanks
 
