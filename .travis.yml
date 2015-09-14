@@ -27,5 +27,4 @@ env:
   matrix:
     - BROWSER=firefox COMMAND=test
     - BROWSER=chromium-browser COMMAND=test
-    - BROWSER=chrome COMMAND=test-saucelabs
 
