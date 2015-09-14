@@ -66,8 +66,17 @@ View console logs in the browser to see test output.
 
 ## Automated tests
 
+Browser:
+
 ```
 BROWSER=firefox npm test
+BROWSER=chrome npm test
+```
+
+[FakeIndexedDB](https://github.com/dumbmatter/fakeIndexedDB) in Node:
+
+```
+npm run test-fakeindexeddb
 ```
 
 ##  Thanks

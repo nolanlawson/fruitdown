@@ -1,5 +1,9 @@
 'use strict';
 
+if (typeof process !== 'undefined' && !process.browser) {
+  global.indexedDB = require('fake-indexeddb');
+}
+
 var tape   = require('tape');
 var lib = require('../');
 var testCommon = require('./testCommon');

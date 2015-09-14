@@ -22,4 +22,5 @@ env:
 
   matrix:
     - BROWSER=firefox COMMAND=test
+    - COMMAND=test-fakeindexeddb
 
