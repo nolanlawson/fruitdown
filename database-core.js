@@ -89,7 +89,10 @@ StorageCore.prototype.getKeys = function (callback) {
 
     var keys = [];
     txn.oncomplete = function () {
-      callback(null, keys);
+      // Safari has a bug where these keys aren't returned in sorted
+      // order, so we have to sort them explicitly
+      // https://bugs.webkit.org/show_bug.cgi?id=149205
+      callback(null, keys.sort());
     };
 
     // using openKeyCursor avoids reading in the whole value,
