@@ -1,6 +1,5 @@
 # FruitDOWN [![Build Status](https://travis-ci.org/nolanlawson/fruitdown.svg?branch=master)](https://travis-ci.org/nolanlawson/fruitdown)
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/nolan_lawson.svg)](https://saucelabs.com/u/nolan_lawson)
 
 A browser-based LevelDOWN adapter that works over all implementations of IndexedDB, including Apple's buggy version.
 
@@ -17,6 +16,17 @@ This project is intended for use with the [Level ecosystem](https://github.com/l
 ```
 npm install fruitdown
 ```
+
+## Browser support
+
+Tested in:
+
+* **Android**: 4.4, 5.0, 5.1
+* **Firefox**: 38-42
+* **Chrome**: 42-beta
+* **IE**: 10-11
+* **iPhone**: 8.0-9.1
+* **Safari**: 7.1-9
 
 ## Background
 
