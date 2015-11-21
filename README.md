@@ -1,6 +1,6 @@
 # FruitDOWN [![Build Status](https://travis-ci.org/nolanlawson/fruitdown.svg?branch=master)](https://travis-ci.org/nolanlawson/fruitdown)
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/nolanwlawson.svg)](https://saucelabs.com/u/nolanwlawson)
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/nolan_lawson.svg)](https://saucelabs.com/u/nolan_lawson)
 
 A browser-based LevelDOWN adapter that works over all implementations of IndexedDB, including Apple's buggy version.
 
