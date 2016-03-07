@@ -7,13 +7,14 @@ git:
   depth: 10
 
 addons:
+  firefox: "41.0.1"
   sauce_connect: true
+
+script: npm run $COMMAND
 
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-
-script: npm run $COMMAND
 
 env:
   global:
@@ -23,10 +24,13 @@ env:
   matrix:
     - BROWSER=firefox COMMAND=test
     - COMMAND=test-fakeindexeddb
+    - COMMAND=test-phantom
     - COMMAND=test-saucelabs BROWSER_NAME=iphone BROWSER_VERSION="8.0..latest"
     - COMMAND=test-saucelabs BROWSER_NAME=safari BROWSER_VERSION="7..latest"
     - COMMAND=test-saucelabs BROWSER_NAME=android BROWSER_VERSION="4.4..latest"
     - COMMAND=test-saucelabs BROWSER_NAME=ie BROWSER_VERSION="10..latest"
     - COMMAND=test-saucelabs BROWSER_NAME=firefox BROWSER_VERSION="38..latest"
     - COMMAND=test-saucelabs BROWSER_NAME=chrome BROWSER_VERSION="42..beta"
-
+branches:
+  only:
+  - master

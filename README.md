@@ -67,27 +67,27 @@ Apple have [pledged to fix IndexedDB](https://twitter.com/grorgwork/status/61815
 
 ## Tests
 
-```
-npm run dev
-```
+    npm run dev
 
-Browse to [http://localhost:9966](http://localhost:9966). 
-View console logs in the browser to see test output. 
+Browse to [http://localhost:9966](http://localhost:9966).
+View console logs in the browser to see test output.
 
 ## Automated tests
 
 Browser:
 
-```
-BROWSER=firefox npm test
-BROWSER=chrome npm test
-```
+
+    BROWSER=firefox npm test
+    BROWSER=chrome npm test
 
 [FakeIndexedDB](https://github.com/dumbmatter/fakeIndexedDB) in Node:
 
-```
-npm run test-fakeindexeddb
-```
+
+    npm run test-fakeindexeddb
+
+PhantomJS tests:
+
+    npm run test-phantom
 
 ##  Thanks
 

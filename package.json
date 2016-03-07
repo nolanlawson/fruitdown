@@ -13,7 +13,7 @@
     "levelup"
   ],
   "version": "1.0.1",
-  "main": "index.js",
+  "main": "lib/index.js",
   "dependencies": {
     "abstract-leveldown": "0.12.3",
     "argsarray": "0.0.1",
@@ -23,15 +23,16 @@
   },
   "devDependencies": {
     "beefy": "~1.1.0",
-    "browserify": "^11.1.0",
+    "browserify": "^13.0.0",
     "fake-indexeddb": "^1.0.3",
     "jshint": "^2.5.0",
     "levelup": "^0.18.2",
+    "phantomjs-prebuilt": "^2.1.5",
     "smokestack": "^3.3.1",
     "tap-closer": "^1.0.0",
     "tap-spec": "^4.1.0",
     "tape": "^2.12.3",
-    "zuul": "^3.5.0"
+    "zuul": "^3.10.0"
   },
   "repository": {
     "type": "git",
@@ -42,12 +43,16 @@
   },
   "scripts": {
     "dev": "npm run jshint && beefy tests/test.js",
-    "jshint": "jshint -c .jshintrc *.js tests/*.js",
+    "jshint": "jshint -c .jshintrc lib tests",
     "test": "npm run jshint && npm run test-browser",
     "test-fakeindexeddb": "node tests/test.js",
     "test-browser": "browserify tests/test.js | tap-closer | smokestack -b $BROWSER | tap-spec",
-    "test-saucelabs": "zuul --browser-name $BROWSER_NAME --browser-version $BROWSER_VERSION -- tests/test.js"
+    "test-saucelabs": "zuul --no-coverage --browser-name $BROWSER_NAME --browser-version $BROWSER_VERSION -- tests/test.js",
+    "test-phantom": "zuul --no-coverage --phantom -- tests/test.js"
   },
   "license": "MIT",
-  "gypfile": false
+  "gypfile": false,
+  "files": [
+    "lib"
+  ]
 }
