@@ -71,7 +71,7 @@ module.exports.all = function (leveldown, tape, testCommon) {
   tape('delete while iterating', function (t) {
     var db = leveldown(testCommon.location());
     var noerr = function (err) {
-      t.error(err, 'opens crrectly');
+      t.error(err, 'open correctly');
     };
     var noop = function () {};
     var iterator;
@@ -98,7 +98,7 @@ module.exports.all = function (leveldown, tape, testCommon) {
   tape('add many while iterating', function (t) {
     var db = leveldown(testCommon.location());
     var noerr = function (err) {
-      t.error(err, 'opens crrectly');
+      t.error(err, 'open correctly');
     };
     var noop = function () {};
     var iterator;
@@ -132,7 +132,7 @@ module.exports.all = function (leveldown, tape, testCommon) {
   tape('concurrent batch delete while iterating', function (t) {
     var db = leveldown(testCommon.location());
     var noerr = function (err) {
-      t.error(err, 'opens crrectly');
+      t.error(err, 'open correctly');
     };
     var noop = function () {};
     var iterator;
@@ -163,7 +163,7 @@ module.exports.all = function (leveldown, tape, testCommon) {
     var db = leveldown('aaaaaa');
     var db2 = leveldown('bbbbbb');
     var noerr = function (err) {
-      t.error(err, 'opens crrectly');
+      t.error(err, 'open correctly');
     };
     var noop = function () {};
     var iterator;
