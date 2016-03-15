@@ -9,24 +9,13 @@ This is designed for environments where you can't use WebSQL as a polyfill for S
 * Safari/iOS, but you don't want [an annoying popup](http://pouchdb.com/errors.html#not_enough_space) after you reach 5MB
 * iOS, but you need to store more than 50MB, which [works in IndexedDB](https://github.com/nolanlawson/database-filler) but [not in WebSQL](http://www.html5rocks.com/en/tutorials/offline/quota-research/)
 
-This project is intended for use with the [Level ecosystem](https://github.com/level/), including as a [PouchDB](http://pouchdb.com) adapter (coming soon).
+This project is intended for use with the [Level ecosystem](https://github.com/level/), including as a [PouchDB adapter](http://pouchdb.com/adapters.html#pouchdb_in_the_browser).
 
 ## Install
 
 ```
 npm install fruitdown
 ```
-
-## Browser support
-
-Tested in:
-
-* **Android**: 4.4, 5.0, 5.1
-* **Firefox**: 38-42
-* **Chrome**: 42-beta
-* **IE**: 10-11
-* **iPhone**: 8.0-9.1
-* **Safari**: 7.1-9
 
 ## Background
 
@@ -44,7 +33,7 @@ All keys are kept in memory, which is bad for memory usage but actually a win fo
 
 Another limitation is that both keys and values are converted to strings before being stored. So instead of efficiently using Blobs or even JSON objects, binary strings are stored instead. This is okay, though, because Chrome < 43 (and therefore pre-Lollipop Android) [does not store Blobs correctly](https://code.google.com/p/chromium/issues/detail?id=447836), and Safari [doesn't support Blob storage either](https://bugs.webkit.org/show_bug.cgi?id=143193).
 
-To avoid [concurrency bugs in IE/Edge](https://gist.github.com/nolanlawson/a841ee23436410f37168), this project borrows PouchDB's system of maintaining a global cache of databases and only ever using one database per name.
+To avoid [concurrency bugs in IE/Edge](https://gist.github.com/nolanlawson/a841ee23436410f37168), this project borrows PouchDB's system of maintaining a global cache of databases and only ever using one database per name. It also works around a [bug with key ordering](https://bugs.webkit.org/show_bug.cgi?id=149205) in Safari.
 
 ## Browser support
 
@@ -59,6 +48,7 @@ FruitDOWN supports [any browser that has IndexedDB](http://caniuse.com/#feat=ind
 
 The buggy [Samsung/HTC IndexedDB variants](https://github.com/pouchdb/pouchdb/issues/1207) based on an older version of the IndexedDB spec, which you will occasionally find in Android 4.3, are not supported.
 
+See [.travis.yml](https://github.com/nolanlawson/fruitdown/blob/master/.travis.yml#L25-L33) for the full list of browsers that are tested in CI.
 
 ## Future
 
