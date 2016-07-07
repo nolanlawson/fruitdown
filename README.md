@@ -82,3 +82,5 @@ PhantomJS tests:
 ##  Thanks
 
 Thanks to [Anton Whalley](https://github.com/no9), [Adam Shih](https://github.com/adamshih) and everybody else who contributed to localstorage-down. Also thanks to everybody who worked on PouchDB, where most of these IndexedDB bugs were discovered.
+
+
