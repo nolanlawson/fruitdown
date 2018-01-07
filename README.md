@@ -1,7 +1,14 @@
-# FruitDOWN [![Build Status](https://travis-ci.org/nolanlawson/fruitdown.svg?branch=master)](https://travis-ci.org/nolanlawson/fruitdown)
-
+# FruitDOWN ![project unmaintained](https://img.shields.io/badge/project-unmaintained-red.svg) [![Build Status](https://travis-ci.org/nolanlawson/fruitdown.svg?branch=master)](https://travis-ci.org/nolanlawson/fruitdown)
 
 A browser-based LevelDOWN adapter that works over all implementations of IndexedDB, including Apple's buggy version.
+
+⚠️⚠️⚠️
+
+**Update:** Safari has largely fixed their IndexedDB issues, starting around Safari 10.1. If you are supporting recent versions of iOS and Safari (iOS >=10.3 and Safari >=10.1 roughly) then you do not need `fruitdown`. It is now unmaintained.
+
+Original documentation follows:
+
+⚠️⚠️⚠️
 
 This is designed for environments where you can't use WebSQL as a polyfill for Safari browsers, such as:
 
